@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Jellyfin.Plugin.EnhancedGuide</AssemblyName>
+    <Version>1.0.0.0</Version>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Jellyfin.Controller" Version="12.1.0" ExcludeAssets="runtime" />
+    <PackageReference Include="Jellyfin.Model" Version="12.1.0" ExcludeAssets="runtime" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <EmbeddedResource Include="../web/enhanced-guide.js" LogicalName="EnhancedGuide.Script" />
+  </ItemGroup>
+</Project>
