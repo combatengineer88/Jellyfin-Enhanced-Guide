@@ -1,0 +1,29 @@
+name: Build Enhanced Guide
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Check JavaScript
+        run: node --check web/enhanced-guide.js
+      - name: Build
+        run: dotnet build src/EnhancedGuide.csproj -c Release -o build
+      - name: Package
+        run: |
+          mkdir -p package
+          cp build/Jellyfin.Plugin.EnhancedGuide.dll package/
+          cd package
+          zip ../EnhancedGuide-1.0.0.0-preview.zip Jellyfin.Plugin.EnhancedGuide.dll
+      - uses: actions/upload-artifact@v4
+        with:
+          name: EnhancedGuide-preview
+          path: EnhancedGuide-1.0.0.0-preview.zip
