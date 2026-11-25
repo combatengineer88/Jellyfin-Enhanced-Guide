@@ -2,9 +2,10 @@ name: Build Enhanced Guide
 on:
   push:
     branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,8 +23,22 @@ jobs:
           mkdir -p package
           cp build/Jellyfin.Plugin.EnhancedGuide.dll package/
           cd package
-          zip ../EnhancedGuide-1.0.0.0-preview.zip Jellyfin.Plugin.EnhancedGuide.dll
+          zip ../EnhancedGuide-1.1.0.0.zip Jellyfin.Plugin.EnhancedGuide.dll
       - uses: actions/upload-artifact@v4
         with:
-          name: EnhancedGuide-preview
-          path: EnhancedGuide-1.0.0.0-preview.zip
+          name: EnhancedGuide-1.1.0.0
+          path: EnhancedGuide-1.1.0.0.zip
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$GITHUB_REF_NAME" = "v1.1.0.0"
+          gh release create "$GITHUB_REF_NAME" EnhancedGuide-1.1.0.0.zip --title "Enhanced Guide 1.1.0.0" --notes "Visual enhancement preview; JavaScript Injector required."
+          python - <<'PY'
+          import json, hashlib, datetime
+          filename='EnhancedGuide-1.1.0.0.zip'
+          manifest=[{"guid":"aeea3bf9-b271-43a0-880e-ef18c9789723","name":"Enhanced Guide","overview":"Enhanced Live TV guide","description":"Poster layouts and guide settings. Requires JavaScript Injector.","owner":"combatengineer88","category":"Live TV","versions":[{"version":"1.1.0.0","changelog":"Visual enhancement preview","targetAbi":"12.1.0.0","sourceUrl":"https://github.com/combatengineer88/Jellyfin-Enhanced-Guide/releases/download/v1.1.0.0/"+filename,"checksum":hashlib.md5(open(filename,'rb').read()).hexdigest(),"timestamp":datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}]}]
+          with open('manifest.json','w') as f: json.dump(manifest,f,indent=2)
+          PY
+          gh release upload "$GITHUB_REF_NAME" manifest.json --clobber
