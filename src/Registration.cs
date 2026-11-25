@@ -31,7 +31,7 @@ public sealed class GuideRegistration(ILogger<GuideRegistration> logger) : Backg
                 var method = injector?.GetMethod("RegisterScript", BindingFlags.Public | BindingFlags.Static);
                 if (method != null)
                 {
-                    var payload = JsonSerializer.Serialize(new { id=ScriptId, name="Enhanced Guide", script, enabled=true, requiresAuthentication=true, pluginId="aeea3bf9-b271-43a0-880e-ef18c9789723", pluginName="Enhanced Guide", pluginVersion="1.1.1.0" });
+                    var payload = JsonSerializer.Serialize(new { id=ScriptId, name="Enhanced Guide", script, enabled=true, requiresAuthentication=true, pluginId="aeea3bf9-b271-43a0-880e-ef18c9789723", pluginName="Enhanced Guide", pluginVersion="1.1.2.0" });
                     var type = method.GetParameters()[0].ParameterType;
                     var obj = type.GetMethod("Parse", new[]{typeof(string)})!.Invoke(null,new object[]{payload});
                     if (method.Invoke(null,new[]{obj}) is true) { logger.LogInformation("Enhanced Guide registered"); return; }
