@@ -26,8 +26,10 @@ style.textContent+=`
 #eg-panel{position:fixed;right:24px;bottom:76px;z-index:1001;background:#172334;color:white;border:1px solid #40536b;border-radius:12px;padding:18px;width:250px;box-shadow:0 8px 30px #0008}
 #eg-panel label{display:flex;align-items:center;justify-content:space-between;margin:12px 0;gap:8px}#eg-panel button{margin:5px;padding:6px}
 .programCell{min-height:var(--eg-height)!important;border-radius:8px!important;box-shadow:inset 0 0 0 1px #ffffff18;background-color:#203044!important;overflow:hidden}
-.guideChannel,.channelCell,.programRow,.guideRow{min-height:var(--eg-height)!important;height:var(--eg-height)!important}
-.programCell.eg-art{background-size:var(--eg-poster) auto!important;padding-left:calc(var(--eg-poster) + 12px)!important}
+.tvguide .guide-channelHeaderCell,.tvguide .channelPrograms,.guide-channelHeaderCell,.channelPrograms{box-sizing:border-box!important;height:var(--eg-height)!important;min-height:var(--eg-height)!important;max-height:var(--eg-height)!important;flex:0 0 var(--eg-height)!important;margin-top:0!important;margin-bottom:0!important}
+.channelPrograms>.programCell{box-sizing:border-box!important;top:0!important;bottom:0!important;height:100%!important;min-height:0!important;max-height:100%!important}
+
+.programCell.eg-art{background-size:auto min(calc(var(--eg-height) - 8px),calc(var(--eg-poster) * 1.5))!important;padding-left:calc(var(--eg-poster) + 12px)!important}
 [data-eg-mode="Cinematic"] .programCell.eg-art{background-size:cover!important;background-position:center!important;padding-left:12px!important;text-shadow:0 1px 5px black}
 .eg-meta{display:none;font-size:11px;opacity:.85;pointer-events:none}.eg-details .eg-meta{display:block}
 .eg-bar{display:none;position:absolute;bottom:2px;left:0;height:4px;background:#00a4dc;pointer-events:none}.eg-progress .eg-bar{display:block}
